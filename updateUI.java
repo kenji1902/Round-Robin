@@ -101,7 +101,7 @@ public class updateUI implements Option {
                         if(j < tableRowSize) {
                             refactorCell(tableColSize * j, page, "arrival", cellYellow, opaque);
                             refactorCell(tableColSize * j + 1, page, "burstTime", cellRed, opaque);
-                            refactorCellRow(j, page, cellOrange, opaque);
+                            //refactorCellRow(j, page, cellOrange, opaque);
                             j++;
                         }
                     }
@@ -235,6 +235,10 @@ public class updateUI implements Option {
         JLabel cell = (JLabel) Table.getComponent(index);
         cell.setOpaque(true);
         cell.setText(String.valueOf(roundRobin.getSteps().get(page).process[index]));
+
+        Rectangle rec = cell.getBounds();
+        table.getjScrollPane().getVerticalScrollBar().setValue(rec.y);
+
         if(opaque) {
             if(color == cellYellow)
                 cell.setForeground(cellGray);

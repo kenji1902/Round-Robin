@@ -10,6 +10,7 @@ public class tablePanel implements Option {
     private JPanel colIndex;
     private JLabel TAT;
     private JLabel WAT;
+    JScrollPane jScrollPane;
 
     private Dimension cellSize = new Dimension(50,50);
     private Dimension rowSize = new Dimension(70,50);
@@ -54,7 +55,7 @@ public class tablePanel implements Option {
         ScrollPanel.setName("scrollPanel");
         ScrollPanel.setBackground(cellGray);
 
-        JScrollPane jScrollPane = new JScrollPane(ScrollPanel);
+        jScrollPane = new JScrollPane(ScrollPanel);
         jScrollPane.setName("scrollArea");
         jScrollPane.setRowHeaderView(rowIndex);
         jScrollPane.setColumnHeaderView(colIndex);
@@ -197,7 +198,6 @@ public class tablePanel implements Option {
 
         });
         jScrollPane.getViewport().addChangeListener(e -> {
-
             if(jScrollPane.getVerticalScrollBar().isVisible()){
                 corner.setVisible(true);
             }
@@ -274,6 +274,10 @@ public class tablePanel implements Option {
 
     public JLabel getWAT() {
         return WAT;
+    }
+
+    public JScrollPane getjScrollPane() {
+        return jScrollPane;
     }
 
     class data extends JLabel{
