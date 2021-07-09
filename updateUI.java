@@ -71,6 +71,10 @@ public class updateUI implements Option {
         JTextPane code = (JTextPane) pane.getViewport().getView();
         JLabel Time = information.getTime();
         JLabel TimeQuantum = information.getTimeQuantum();
+        JLabel TAT = table.getTAT();
+        JLabel WAT = table.getWAT();
+
+        Codes html = new Codes();
 
         TimeQuantum.setOpaque(opaque);
         TimeQuantum.setBackground(cellGray);
@@ -84,7 +88,7 @@ public class updateUI implements Option {
 
         switch (part){
             case 0:
-
+                code.setText(html.code0);
                 Time.setText(timeVal);
                 for(int j = 0; j < tableRowSize; j++)
                     refactorCellRow(j, this.page, cellBlack, opaque);
@@ -109,40 +113,48 @@ public class updateUI implements Option {
                 scheduler.shutdown();
                 break;
             case 2:
+                code.setText(html.code2);
                 refactorCell(tableColSize * i + 2, page, "startedTime", cellRed, opaque);
                 refactorCell(tableColSize * i,page,"arrival",cellYellow,opaque);
                 Time.setText(timeVal);
                 refactorCellRow(i,page,cellGray,opaque);
                 break;
             case 3:
+                code.setText(html.code3);
                 refactorCell(tableColSize * i + 2, page, "startedTime", cellRed, opaque);
                 TimeQuantum.setBackground(cellOrange);
                 Time.setText(timeVal);
                 Time.setBackground(cellBlue);
+                refactorCellRow(i,page,cellGray,opaque);
+
                 break;
             case 4:
+                code.setText(html.code4);
                 TimeQuantum.setBackground(cellOrange);
                 refactorCell(tableColSize * i + 1,page,"burstTime",cellYellow,opaque);
                 refactorCellRow(i,page,cellGray,opaque);
-                refactorCPU(String.valueOf(roundRobin.getSteps().get(page).getQueue().get(i).process),page,cellRed,opaque);
+                refactorCPU(String.valueOf(roundRobin.getSteps().get(page).process[i]),page,cellRed,opaque);
 
                 break;
 
             case 5:
+                code.setText(html.code5);
                 Time.setText(timeVal);
                 Time.setBackground(cellBlue);
                 refactorCell(tableColSize * i + 1,page,"burstTime",cellYellow,opaque);
                 refactorCellRow(i,page,cellGray,opaque);
-                refactorCPU(String.valueOf(roundRobin.getSteps().get(page).getQueue().get(i).process),page,cellGreen,opaque);
+                refactorCPU(String.valueOf(roundRobin.getSteps().get(page).process[i]),page,cellGreen,opaque);
 
                 break;
             case 6:
+                code.setText(html.code6);
                 Time.setText(timeVal);
                 Time.setBackground(cellBlue);
                 refactorCell(tableColSize * i + 3,page,"completionTime",cellYellow,opaque);
                 refactorCellRow(i,page,cellGray,opaque);
                 break;
             case 7:
+                code.setText(html.code7);
                 refactorCell(tableColSize * i,page,"arrival",cellRed,opaque);
                 refactorCell(tableColSize * i + 3,page,"completionTime",cellOrange,opaque);
                 refactorCell(tableColSize * i + 4,page,"turnAroundTime",cellYellow,opaque);
@@ -150,13 +162,17 @@ public class updateUI implements Option {
 
                 break;
             case 8:
+                code.setText(html.code8);
                 refactorCell(tableColSize * i + 1,page,"burstTime",cellRed,opaque);
                 refactorCell(tableColSize * i + 4,page,"turnAroundTime",cellOrange,opaque);
                 refactorCell(tableColSize * i + 5,page,"waitingTime",cellYellow,opaque);
                 refactorCellRow(i,page,cellGray,opaque);
+                TAT.setText(String.format("%.3f",roundRobin.getSteps().get(page).avgTurnAroundTime[i]));
+                WAT.setText(String.format("%.3f",roundRobin.getSteps().get(page).avgWaitingTime[i]));
 
                 break;
             case 9:
+                code.setText(html.code9);
                 refactorCPU("",page,cellGreen,opaque);
                 break;
             case 10:
@@ -184,7 +200,28 @@ public class updateUI implements Option {
                 Time.setText(timeVal);
 
                 break;
+            case 11:
+                code.setText(html.code11);
+                TimeQuantum.setBackground(cellOrange);
+                Time.setText(timeVal);
+                Time.setBackground(cellBlue);
+                refactorCellRow(i,page,cellGray,opaque);
+                break;
 
+            case 12:
+                code.setText(html.code12);
+                refactorCell(tableColSize * i + 1,page,"burstTime",cellRed,opaque);
+                refactorCellRow(i,page,cellGray,opaque);
+                break;
+            case 13:
+                code.setText(html.code13);
+                refactorCell(tableColSize * i,page,"arrival",cellYellow,opaque);
+                refactorCell(tableColSize * i + 1,page,"burstTime",cellRed,opaque);
+                Time.setText(timeVal);
+                Time.setBackground(cellBlue);
+                refactorCellRow(i,page,cellGray,opaque);
+
+                break;
 
         }
 
@@ -197,17 +234,15 @@ public class updateUI implements Option {
         JPanel Table = this.table.getRowIndex();
         JLabel cell = (JLabel) Table.getComponent(index);
         cell.setOpaque(true);
-        cell.setText(String.valueOf(roundRobin.getSteps().get(page).getQueue().get(index).process));
+        cell.setText(String.valueOf(roundRobin.getSteps().get(page).process[index]));
         if(opaque) {
             if(color == cellYellow)
                 cell.setForeground(cellGray);
             cell.setBackground(color);
         }
         else {
-            if(page !=0 && this.page < prevpage) {
-                cell.setText(String.valueOf(roundRobin.getSteps().get(page-1).getQueue().get(index).process));
-                System.out.println(index + " " + (page - 1) + " " + roundRobin.getSteps().get(page - 1).getQueue().get(index));
-            }
+            if(page !=0 && this.page < prevpage)
+                cell.setText(String.valueOf(roundRobin.getSteps().get(page).process[index]));
             cell.setBackground(cellBlack);
             cell.setForeground(cellWhite);
         }
@@ -223,79 +258,79 @@ public class updateUI implements Option {
         cell.setOpaque(opaque);
         switch (data) {
             case  "arrival":
-                cell.setText(String.valueOf(roundRobin.getSteps().get(page).getQueue().get(row).arrivalTime));
+                cell.setText(String.valueOf(roundRobin.getSteps().get(page).arrivalTime[row]));
                 if (opaque) {
                     if (color == cellYellow)
                         cell.setForeground(cellGray);
                     cell.setBackground(color);
                 } else {
                     if (page != 0 && this.page < prevpage)
-                        cell.setText(String.valueOf(roundRobin.getSteps().get(page-1).getQueue().get(row).arrivalTime));
+                        cell.setText(String.valueOf(roundRobin.getSteps().get(page-1).arrivalTime[row]));
                     cell.setBackground(cellGray);
                     cell.setForeground(cellWhite);
                 }
                 break;
             case  "burstTime":
-                cell.setText(String.valueOf(roundRobin.getSteps().get(page).getQueue().get(row).burstTime));
+                cell.setText(String.valueOf(roundRobin.getSteps().get(page).burstTime[row]));
                 if (opaque) {
                     if (color == cellYellow)
                         cell.setForeground(cellGray);
                     cell.setBackground(color);
                 } else {
                     if (page != 0 && this.page < prevpage)
-                        cell.setText(String.valueOf(roundRobin.getSteps().get(page-1).getQueue().get(row).burstTime));
+                        cell.setText(String.valueOf(roundRobin.getSteps().get(page-1).burstTime[row]));
                     cell.setBackground(cellGray);
                     cell.setForeground(cellWhite);
                 }
                 break;
             case  "startedTime":
-                cell.setText(String.valueOf(roundRobin.getSteps().get(page).getQueue().get(row).startTime));
+                cell.setText(String.valueOf(roundRobin.getSteps().get(page).startTime[row]));
                 if (opaque) {
                     if (color == cellYellow)
                         cell.setForeground(cellGray);
                     cell.setBackground(color);
                 } else {
                     if (page != 0 && this.page < prevpage)
-                        cell.setText(String.valueOf(roundRobin.getSteps().get(page-1).getQueue().get(row).startTime));
+                        cell.setText(String.valueOf(roundRobin.getSteps().get(page-1).startTime[row]));
                     cell.setBackground(cellGray);
                     cell.setForeground(cellWhite);
                 }
                 break;
             case  "completionTime":
-                cell.setText(String.valueOf(roundRobin.getSteps().get(page).getQueue().get(row).completionTime));
+                cell.setText(String.valueOf(roundRobin.getSteps().get(page).completionTime[row]));
                 if (opaque) {
                     if (color == cellYellow)
                         cell.setForeground(cellGray);
                     cell.setBackground(color);
                 } else {
                     if (page != 0 && this.page < prevpage)
-                        cell.setText(String.valueOf(roundRobin.getSteps().get(page-1).getQueue().get(row).completionTime));
+                        cell.setText(String.valueOf(roundRobin.getSteps().get(page-1).completionTime[row]));
                     cell.setBackground(cellGray);
                     cell.setForeground(cellWhite);
                 }
                 break;
             case  "turnAroundTime":
-                cell.setText(String.valueOf(roundRobin.getSteps().get(page).getQueue().get(row).turnAroundTime));
+                cell.setText(String.valueOf(roundRobin.getSteps().get(page).turnAroundTime[row]));
                 if (opaque) {
                     if (color == cellYellow)
                         cell.setForeground(cellGray);
                     cell.setBackground(color);
                 } else {
                     if (page != 0 && this.page < prevpage)
-                        cell.setText(String.valueOf(roundRobin.getSteps().get(page-1).getQueue().get(row).turnAroundTime));
+                        cell.setText(String.valueOf(roundRobin.getSteps().get(page-1).turnAroundTime[row]));
                     cell.setBackground(cellGray);
                     cell.setForeground(cellWhite);
                 }
                 break;
             case  "waitingTime":
-                cell.setText(String.valueOf(roundRobin.getSteps().get(page).getQueue().get(row).waitingTime));
+                cell.setText(String.valueOf(roundRobin.getSteps().get(page).waitingTime[row]));
                 if (opaque) {
                     if (color == cellYellow)
                         cell.setForeground(cellGray);
                     cell.setBackground(color);
                 } else {
                     if (page != 0 && this.page < prevpage)
-                        cell.setText(String.valueOf(roundRobin.getSteps().get(page-1).getQueue().get(row).waitingTime));
+                        cell.setText(String.valueOf(roundRobin.getSteps().get(page-1).waitingTime[row]));
                     cell.setBackground(cellGray);
                     cell.setForeground(cellWhite);
                 }
@@ -368,7 +403,8 @@ public class updateUI implements Option {
             if(colSize != str.length)
                 throw new Exception("Process, Arrival Time, and BurstOut TIme must be same size");
         if(rowSize < 2)
-            throw new Exception("Missing BurtOut Time");
+            throw new Exception("(Format):\nArrival Time\nBurst Out");
+
 
 
         LinkedList<Process>  container = new LinkedList<Process>();

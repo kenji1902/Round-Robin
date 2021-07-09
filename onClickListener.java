@@ -131,12 +131,12 @@ public class onClickListener implements ActionListener {
                         ui.getMainFrame().revalidate();
 
                     }catch (Exception err){
-                        JOptionPane.showMessageDialog(null,"Please provide an Input\n"+err.getMessage() ,"Invalid Input",JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null,"Please provide an Input"+err.getMessage() ,"Invalid Input",JOptionPane.WARNING_MESSAGE);
                     }
                 }
                 else {
                     if(ui.getRandomTaskCount() < 1)
-                        JOptionPane.showMessageDialog(null, "Please provide an Input\n", "Invalid Input", JOptionPane.WARNING_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Please provide an Input (Format):\nArrival Time\nBurst Out", "Invalid Input", JOptionPane.WARNING_MESSAGE);
                     else
                         JOptionPane.showMessageDialog(null,"Random Task in Progress\nCalculate Disabled","Random Task",JOptionPane.WARNING_MESSAGE);
                 }

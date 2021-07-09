@@ -23,6 +23,7 @@ public class informationPanel implements Option{
         Title.setForeground(cellYellow);
 
         //Setup ScrollPane Options
+        information.setPreferredSize(new Dimension(0,0));
         scrollPane = new JScrollPane(code,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setPreferredSize(new Dimension(0,0));
         scrollPane.setBackground(cellBlack);
@@ -77,10 +78,10 @@ public class informationPanel implements Option{
                         ui.refactorCPU("", ui.getPage(), cellGreen, true);
                         break;
                     case 4:
-                        ui.refactorCPU(String.valueOf(ui.getRoundRobin().getSteps().get(ui.getPage()).getQueue().get(i).process), ui.getPage(), cellRed, true);
+                        ui.refactorCPU(String.valueOf(ui.getRoundRobin().getSteps().get(ui.getPage()).process[i]), ui.getPage(), cellRed, true);
                         break;
                     case 5:
-                        ui.refactorCPU(String.valueOf(ui.getRoundRobin().getSteps().get(ui.getPage()).getQueue().get(i).process), ui.getPage(), cellGreen, true);
+                        ui.refactorCPU(String.valueOf(ui.getRoundRobin().getSteps().get(ui.getPage()).process[i]), ui.getPage(), cellGreen, true);
                         break;
                 }
             }
