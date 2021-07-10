@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
@@ -179,7 +180,9 @@ public class onClickListener implements ActionListener {
                 roundRobin.roundRobin();
                 break;
             } catch (Exception err) {
-                JOptionPane.showMessageDialog(null,"Please provide an Input\n"+"Time Quantum" ,"Invalid Input",JOptionPane.WARNING_MESSAGE);
+//                JOptionPane.showMessageDialog(null,"Check Random Input\n"+"Try Again\n"+ err.getMessage(),"Invalid Input",JOptionPane.WARNING_MESSAGE);
+//                ui.setRandomTaskCount(0);
+                break;
             }
         }
         if(ui.getRandomTaskCount() > 0){
