@@ -182,7 +182,7 @@ public class onClickListener implements ActionListener {
             } catch (Exception err) {
 //                JOptionPane.showMessageDialog(null,"Check Random Input\n"+"Try Again\n"+ err.getMessage(),"Invalid Input",JOptionPane.WARNING_MESSAGE);
 //                ui.setRandomTaskCount(0);
-                break;
+                //break;
             }
         }
         if(ui.getRandomTaskCount() > 0){

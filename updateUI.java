@@ -182,13 +182,18 @@ public class updateUI implements Option {
                     @Override
                     public void run() {
                         int i = roundRobin.getSteps().get(j).getI();
-                        if(j < tableRowSize) {
+                        if(j < tableRowSize && getPage() > getPrevpage() && opaque) {
                             refactorCell(tableColSize * j + 4, page, "turnAroundTime", cellYellow, opaque);
                             refactorCell(tableColSize * j + 5, page, "waitingTime", cellRed, opaque);
                             refactorCell(tableColSize * j + 1, page, "burstTime", cellGray, opaque);
                             refactorCellRow(j, page, cellOrange, opaque);
                         }
-
+                        else {
+                            refactorCell(tableColSize * j + 4, page, "turnAroundTime", cellYellow, false);
+                            refactorCell(tableColSize * j + 5, page, "waitingTime", cellRed, false);
+                            refactorCell(tableColSize * j + 1, page, "burstTime", cellGray, false);
+                            refactorCellRow(j, page, cellOrange, false);
+                        }
                         j++;
                     }
                 };
@@ -236,10 +241,9 @@ public class updateUI implements Option {
         cell.setOpaque(true);
         cell.setText(String.valueOf(roundRobin.getSteps().get(page).process[index]));
 
-        Rectangle rec = cell.getBounds();
-        table.getjScrollPane().getVerticalScrollBar().setValue(rec.y);
-
         if(opaque) {
+            Rectangle rec = cell.getBounds();
+            table.getjScrollPane().getVerticalScrollBar().setValue(rec.y);
             if(color == cellYellow)
                 cell.setForeground(cellGray);
             cell.setBackground(color);
@@ -448,13 +452,9 @@ public class updateUI implements Option {
         for(int i = 0; i < Row; i++){
             int Val1 = (int) Math.floor(Math.random() * (max - min + 1) + min);
             int Val2 = (int) Math.floor(Math.random() * (max - min + 1) + min);
-            System.out.println(Val1+" " +Val2);
             random.add(new Process(String.valueOf((char) ((i % 26) + 'A'))+i,Val1,Val2));
         }
 
-        for(Process p : random){
-            System.out.println(p.process);
-        }
         return random;
 
     }
