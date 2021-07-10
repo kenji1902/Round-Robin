@@ -437,6 +437,10 @@ public class updateUI implements Option {
 
         if(Row < 1)
             throw new Exception("Row must be greater than 0");
+
+        if(min < 0)
+            throw new Exception("min must be greater than and equal to 0");
+
         if(min >= max)
             throw new Exception("min must be less than max");
 
