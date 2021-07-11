@@ -306,7 +306,7 @@ public class roundRobinUtil {
 
         }
 
-        steps.add(new page(10,0,current_time,
+        steps.add(new page(10,burstTime.length-1,current_time,
                 processes.stream().map(e-> e.process).toArray(String[]::new),
                 processes.stream().mapToInt(e -> e.startTime).toArray(),
                 processes.stream().mapToInt(e -> e.arrivalTime).toArray(),

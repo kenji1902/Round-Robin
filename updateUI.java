@@ -202,6 +202,8 @@ public class updateUI implements Option {
                     scheduler.schedule(task,j*50, TimeUnit.MILLISECONDS);
                 }
                 scheduler.shutdown();
+                TAT.setText(String.format("%.3f",roundRobin.getSteps().get(page).avgTurnAroundTime[i]));
+                WAT.setText(String.format("%.3f",roundRobin.getSteps().get(page).avgWaitingTime[i]));
                 Time.setText(timeVal);
 
                 break;
